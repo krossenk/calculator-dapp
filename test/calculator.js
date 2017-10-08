@@ -2,11 +2,12 @@ var Calculator = artifacts.require("./Calculator.sol");
 
 contract('Calculator', function(accounts) {
   var calculator;
+  var initVal = 10;
   
 
   // Creates a new contract to rest states inside contract
   beforeEach(function() {
-    return Calculator.new(10)
+    return Calculator.new(initVal)
     .then(function(instance) {
       calculator = instance;
     });
@@ -20,7 +21,7 @@ contract('Calculator', function(accounts) {
       //calculator = instance;
       return calculator.getResult.call();
     }).then(function (result) {
-      assert.equal(result.valueOf(), 10, "Contract initialized with value NOT equal to 10!!!");
+      assert.equal(result.valueOf(), initVal, "Contract initialized with value NOT equal to 10!!!");
     });
   });
 
@@ -55,6 +56,36 @@ contract('Calculator', function(accounts) {
       return calculator.getResult.call();
     }).then(function(result){
       assert.equal(result.toNumber(), 30, "Result after multiplying by 3 should be 30 but was " + result.toNumber());
+    });
+  });
+
+  // Test Case#5 Divide
+  it("should assert true", function(){
+      return calculator.divideByNumber(2)
+    .then(function(){
+      return calculator.getResult.call();
+    }).then(function(result){
+      assert.equal(result.toNumber(), 5, "Result after dividing by 2 should be 5 but was " + result.toNumber());
+    });
+  });
+
+  // Test Case#6 double
+  it("should assert true", function(){
+      return calculator.double()
+    .then(function(){
+      return calculator.getResult.call();
+    }).then(function(result){
+      assert.equal(result.toNumber(), 20, "Result after doubling should be 20 but was " + result.toNumber());
+    });
+  });
+
+    // Test Case#7 half
+  it("should assert true", function(){
+      return calculator.half()
+    .then(function(){
+      return calculator.getResult.call();
+    }).then(function(result){
+      assert.equal(result.toNumber(), 5, "Result after halving should be 5 but was " + result.toNumber());
     });
   });
 });
